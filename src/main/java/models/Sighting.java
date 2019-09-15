@@ -1,10 +1,22 @@
 package models;
 
+import java.sql.Timestamp;
+
 public class Sighting{
    private int id;
    private int animalId;
    private  String location;
-   private String rangerName;
+   private int rangerId;
+   private Timestamp timeRecorded;
+
+
+
+    public Sighting(int animalId, String location, int rangerId) {
+        this.animalId= animalId;
+        this.location=location;
+        this.rangerId = rangerId;
+
+    }
 
     public int getId() {
         return id;
@@ -18,14 +30,11 @@ public class Sighting{
         return location;
     }
 
-    public String getRangerName() {
-        return rangerName;
+    public int getRangerId() {
+        return rangerId;
     }
 
-    public Sighting(int animalId, String location, String rangerName) {
-        this.animalId= animalId;
-        this.location=location;
-        this.rangerName = rangerName;
-
+    public Timestamp getTimeRecorded() {
+        return timeRecorded;
     }
 }
