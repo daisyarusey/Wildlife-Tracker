@@ -32,19 +32,35 @@ public class Sighting{
                 Objects.equals(rangerId,sighting.rangerId);
     }
 
-    public void save() {
+
+
+    public void save(){
         try(Connection con = DB.sql2o.open()) {
             String sql = "INSERT INTO sighting (animalId, location, rangerId) VALUES (:animalId, :location, :rangerId)";
-            con.createQuery(sql)
-                    .addParameter("animalId", this.animalId)
-                    .addParameter("location", this.location)
+            this.id = (int) con.createQuery(sql,true)
+                    .addParameter("animalId",this.animalId)
+                    .addParameter("location",this.location)
                     .addParameter("rangerId",this.rangerId)
-                    .executeUpdate();
+                    .executeUpdate()
+                    .getKey();
+
+
         }
     }
+
     public static List<Sighting> all(){
         String sql = "SELECT * FROM sighting";try(Connection con = DB.sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Sighting.class);
+        }
+    }
+
+    public static Sighting find(int id) {
+        try(Connection con = DB.sql2o.open()) {
+            String sql = "SELECT * FROM sighting where id=:id";
+            Sighting sighting = con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Sighting.class);
+            return sighting;
         }
     }
 
