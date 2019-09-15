@@ -1,6 +1,10 @@
 package models;
 
+import org.sql2o.*;
+
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Objects;
 
 public class Sighting{
    private int id;
@@ -16,6 +20,32 @@ public class Sighting{
         this.location=location;
         this.rangerId = rangerId;
 
+    }
+
+    @Override
+    public boolean equals(Object otherSighting) {
+        if (this == otherSighting) return true;
+        if (otherSighting == null || getClass() != otherSighting.getClass()) return false;
+        Sighting sighting = (Sighting) otherSighting;
+        return Objects.equals(animalId, sighting.animalId) &&
+                Objects.equals(location, sighting.location)&&
+                Objects.equals(rangerId,sighting.rangerId);
+    }
+
+    public void save() {
+        try(Connection con = DB.sql2o.open()) {
+            String sql = "INSERT INTO sighting (animalId, location, rangerId) VALUES (:animalId, :location, :rangerId)";
+            con.createQuery(sql)
+                    .addParameter("animalId", this.animalId)
+                    .addParameter("location", this.location)
+                    .addParameter("rangerId",this.rangerId)
+                    .executeUpdate();
+        }
+    }
+    public static List<Sighting> all(){
+        String sql = "SELECT * FROM sighting";try(Connection con = DB.sql2o.open()) {
+            return con.createQuery(sql).executeAndFetch(Sighting.class);
+        }
     }
 
     public int getId() {
