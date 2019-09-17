@@ -79,4 +79,13 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement {
                     .executeAndFetchFirst(EndangeredAnimal.class);
         }
     }
+@Override
+    public void delete() {
+        try (Connection conn = DB.sql2o.open()){
+            String sql = "DELETE FROM endangered_animals WHERE id=:id;";
+            conn.createQuery(sql)
+                    .addParameter("id",id)
+                    .executeUpdate();
+        }
+    }
 }
