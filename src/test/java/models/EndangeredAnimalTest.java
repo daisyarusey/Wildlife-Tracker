@@ -56,6 +56,15 @@ public class EndangeredAnimalTest {
         assertEquals(testEndangeredAnimal.getId(),savedEndangeredAnimal.getId() );
     }
 
+    @Test
+    public void enAnimal_FindsEndangeredAnimalWithTheSameId() throws Exception{
+        EndangeredAnimal firstEndangered = setupNewEndangeredAnimal();
+        firstEndangered.save();
+        EndangeredAnimal secondEndangered = new EndangeredAnimal("Cheetah",EndangeredAnimal.ADULT,EndangeredAnimal.ILL);
+        secondEndangered.save();
+        assertEquals(EndangeredAnimal.findEndangered(secondEndangered.getId()),secondEndangered);
+    }
+
 //helper class
     public EndangeredAnimal setupNewEndangeredAnimal(){
         return new EndangeredAnimal("White Rhino",EndangeredAnimal.ADULT,EndangeredAnimal.ILL);
