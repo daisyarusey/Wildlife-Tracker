@@ -89,6 +89,7 @@ public class AnimalTest {
         animal.delete();
         assertEquals(null, Animal.findById(animalId));
     }
+
     public Animal setUpNewAnimal(){
         return new Animal("Lion");
     }
