@@ -76,7 +76,7 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement {
                     .addParameter("id", id)
                     .addParameter("type", "endangered")
                     .throwOnMappingFailure(false)
-                    .executeAndFetchFirst(Animal.class);
+                    .executeAndFetchFirst(EndangeredAnimal.class);
         }
     }
 }
