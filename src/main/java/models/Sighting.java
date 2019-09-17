@@ -8,17 +8,18 @@ import java.util.Objects;
 
 public class Sighting{
    private int id;
-   private int animalId;
+   private int animal_id;
    private  String location;
-   private int rangerId;
-   private Timestamp timeRecorded;
+   private int ranger_id;
+   private Timestamp time_recorded;
 
 
 
-    public Sighting(int animalId, String location, int rangerId) {
-        this.animalId= animalId;
+    public Sighting(int animal_id, String location, int ranger_id) {
+        this.animal_id= animal_id;
         this.location=location;
-        this.rangerId = rangerId;
+        this.ranger_id = ranger_id;
+
 
     }
 
@@ -27,40 +28,41 @@ public class Sighting{
         if (this == otherSighting) return true;
         if (otherSighting == null || getClass() != otherSighting.getClass()) return false;
         Sighting sighting = (Sighting) otherSighting;
-        return Objects.equals(animalId, sighting.animalId) &&
+        return Objects.equals(animal_id, sighting.animal_id) &&
                 Objects.equals(location, sighting.location)&&
-                Objects.equals(rangerId,sighting.rangerId);
+                Objects.equals(ranger_id,sighting.ranger_id);
     }
 
 
 
     public void save(){
-        try(Connection con = DB.sql2o.open()) {
-            String sql = "INSERT INTO sighting (animalId, location, rangerId) VALUES (:animalId, :location, :rangerId)";
-            this.id = (int) con.createQuery(sql,true)
-                    .addParameter("animalId",this.animalId)
-                    .addParameter("location",this.location)
-                    .addParameter("rangerId",this.rangerId)
+        try(Connection conn = DB.sql2o.open()) {
+            String sql = "INSERT INTO sightings(animal_id,location,ranger_id,time_recorded) VALUES(:animal_id,:location,:ranger_id,now())";
+            this.id= (int) conn.createQuery(sql,true)
+                    .addParameter("animal_id",animal_id)
+                    .addParameter("location",location)
+                    .addParameter("ranger_id",ranger_id)
                     .executeUpdate()
                     .getKey();
-
-
         }
     }
 
     public static List<Sighting> all(){
-        String sql = "SELECT * FROM sighting";try(Connection con = DB.sql2o.open()) {
+        String sql = "SELECT * FROM sightings";
+        try(Connection con = DB.sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Sighting.class);
         }
     }
 
     public static Sighting find(int id) {
         try(Connection con = DB.sql2o.open()) {
-            String sql = "SELECT * FROM sighting where id=:id";
+            String sql = "SELECT * FROM sightings where id=:id";
             Sighting sighting = con.createQuery(sql)
                     .addParameter("id", id)
                     .executeAndFetchFirst(Sighting.class);
             return sighting;
+        }catch (IndexOutOfBoundsException exception) {
+            return null;
         }
     }
 
@@ -68,19 +70,19 @@ public class Sighting{
         return id;
     }
 
-    public int getAnimalId() {
-        return animalId;
+    public int getAnimal_id() {
+        return animal_id;
     }
 
     public String getLocation() {
         return location;
     }
 
-    public int getRangerId() {
-        return rangerId;
+    public int getRanger_id() {
+        return ranger_id;
     }
 
     public Timestamp getTimeRecorded() {
-        return timeRecorded;
+        return time_recorded;
     }
 }

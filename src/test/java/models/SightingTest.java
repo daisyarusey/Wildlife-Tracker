@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.Date;
+import java.sql.Timestamp;
+
 import static org.junit.Assert.*;
 
 public class SightingTest {
@@ -29,7 +32,7 @@ public class SightingTest {
     @Test
     public void getAnimalId_sightingInstantiatesWithAnimalId_2() {
         Sighting testSighting = new Sighting(2, "Zone A", 2);
-        assertEquals(2, testSighting.getAnimalId());
+        assertEquals(2, testSighting.getAnimal_id());
     }
 
     @Test
@@ -41,7 +44,7 @@ public class SightingTest {
     @Test
     public void getRangerId_personInstantiatesWithRangerId_String() {
         Sighting testSighting = new Sighting(2, "Zone A", 2);
-        assertEquals(2, testSighting.getRangerId());
+        assertEquals(2, testSighting.getRanger_id());
     }
 
     @Test
@@ -76,5 +79,14 @@ public class SightingTest {
         Sighting secondSighting = new Sighting(4, "Zone B", 2);
         secondSighting.save();
         assertEquals(Sighting.find(secondSighting.getId()), secondSighting);
+    }
+
+    @Test
+    public void save_recordsTimeOfCreationInDatabase() {
+        Sighting testSighting = new Sighting(2, "Zone A", 2);
+        testSighting.save();
+        Timestamp savedSightingRecordingTime = Sighting.find(testSighting.getId()).getTimeRecorded();
+        Timestamp rightNow = new Timestamp(new Date().getTime());
+        assertEquals(rightNow.getDay(), savedSightingRecordingTime.getDay());
     }
 }
