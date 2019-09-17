@@ -65,8 +65,21 @@ public class EndangeredAnimalTest {
         assertEquals(EndangeredAnimal.findEndangered(secondEndangered.getId()),secondEndangered);
     }
 
+    @Test
+    public void enAnimalReturnsAllInstancesOfEndangeredAnimals_true() throws Exception{
+        EndangeredAnimal firstEndangered = setupNewEndangeredAnimal();
+        firstEndangered.save();
+        EndangeredAnimal secondEndangered = setupAnotherEndangeredAnimal();
+        secondEndangered.save();
+        assertEquals(EndangeredAnimal.allEnd().get(0),firstEndangered);
+        assertEquals(EndangeredAnimal.allEnd().get(1),secondEndangered);
+    }
+
 //helper class
     public EndangeredAnimal setupNewEndangeredAnimal(){
         return new EndangeredAnimal("White Rhino",EndangeredAnimal.ADULT,EndangeredAnimal.ILL);
+    }
+    public EndangeredAnimal setupAnotherEndangeredAnimal(){
+        return new EndangeredAnimal("Rhino",EndangeredAnimal.ADULT,EndangeredAnimal.HEALTHY);
     }
 }
