@@ -1,0 +1,20 @@
+{{#partial "content"}}
+    <h2>Locations</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each locations}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{name}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+{{/partial}}
+{{>layout.hbs}}

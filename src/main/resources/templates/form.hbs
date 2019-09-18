@@ -1,0 +1,13 @@
+{{#partial "content"}}
+    {{#if animal}}
+        <h2>Sight Animal</h2>
+        <form action="/animal" class="form">
+            <div class="md-form">
+                <label id="ranger_name" for="ranger_name"></label>
+                <input class="form-control" id="ranger_name">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+        {{else}}
+        {{/if}}
+{{/partial}}
