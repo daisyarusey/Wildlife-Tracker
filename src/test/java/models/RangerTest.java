@@ -5,14 +5,15 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class RangersTest {
+public class RangerTest {
     @Rule
     public DatabaseRule database = new DatabaseRule();
 
     @Test
     public void instantiatesCorrectly_true(){
-        Animal animal =  setUpNewAnimal();
-        assertEquals(true, animal instanceof Animal);
+        Ranger ranger = new Ranger(1,"Daisy", 3456,724778856);
+        assertEquals(true, ranger instanceof Ranger);
     }
+
 
 }
