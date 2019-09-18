@@ -86,7 +86,7 @@ public class AnimalTest {
         Animal animal =  setUpNewAnimal();
         animal.save();
         int animalId = animal.getId();
-        animal.delete();
+        animal.delete(animalId);
         assertEquals(null, Animal.findById(animalId));
     }
 

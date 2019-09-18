@@ -7,6 +7,6 @@ public interface DatabaseManagement {
 
     void save();
 
-    void delete();
+    void delete(int id);
 }
 

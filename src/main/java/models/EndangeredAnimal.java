@@ -15,6 +15,7 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement {
     public static final String HEALTHY = "healthy";
     public static final String AVERAGE = "okay";
     public static final String ILL = "ill";
+
     EndangeredAnimal(String name, String age, String health){
         super(name);
         this.name=name;
@@ -80,7 +81,7 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement {
         }
     }
 @Override
-    public void delete() {
+    public void delete(int id) {
         try (Connection conn = DB.sql2o.open()){
             String sql = "DELETE FROM endangered_animals WHERE id=:id;";
             conn.createQuery(sql)

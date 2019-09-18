@@ -80,7 +80,7 @@ public class EndangeredAnimalTest {
         EndangeredAnimal endangeredAnimal =  setupNewEndangeredAnimal();
         endangeredAnimal.save();
         int enAnimalId = endangeredAnimal.getId();
-        endangeredAnimal.delete();
+        endangeredAnimal.delete(enAnimalId);
         assertEquals(null, EndangeredAnimal.findById(enAnimalId));
     }
 

@@ -61,7 +61,7 @@ public class Animal implements DatabaseManagement {
         }
     }
 
-    public void delete() {
+    public void delete(int id) {
         try (Connection conn = DB.sql2o.open()){
             String sql = "DELETE FROM animals WHERE id=:id;";
             conn.createQuery(sql)
