@@ -1,13 +1,62 @@
 {{#partial "content"}}
     {{#if animal}}
         <h2>Sight Animal</h2>
-        <form action="/animal" class="form">
+        <form action="/animal/new" class="form" method="POST">
             <div class="md-form">
-                <label id="ranger_name" for="ranger_name"></label>
-                <input class="form-control" id="ranger_name">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <label id="ranger_name" for="ranger_name">Ranger</label>
+                <select class="form-control" name="ranger_id" id="ranger_id" required>
+                    {{#each rangers}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/each}}
+                </select>
             </div>
+            <div class="md-form">
+                <label id="animal_name" for="animal_name">Animal</label>
+                <select class="form-control" name="animal_id" id="animal_id" required>
+                    {{#each animals}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="md-form">
+                <label id="location" for="location">Location</label>
+                <select class="form-control" name="location" id="location" required>
+                    {{#each locations}}
+                        <option value="{{name}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
         {{else}}
+        <h2>Sight Endangered Animals</h2>
+        <form action="/endAnimal/new" class="form" method="POST">
+            <div class="md-form">
+                <label id="ranger_name" for="ranger_name">Ranger</label>
+                <select class="form-control" name="ranger_id" id="ranger_id" required>
+                    {{#each rangers}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="md-form">
+                <label id="animal_name" for="animal_name">Endangered Animal</label>
+                <select class="form-control" name="animal_id" id="animal_id" required>
+                    {{#each endangered_animals}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="md-form">
+                <label id="location" for="location">Location</label>
+                <select class="form-control" name="location" id="location" required>
+                    {{#each locations}}
+                        <option value="{{name}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
         {{/if}}
 {{/partial}}
+{{>layout.hbs}}

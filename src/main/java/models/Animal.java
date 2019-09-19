@@ -50,17 +50,6 @@ public class Animal implements DatabaseManagement {
     }
 
 
-    public void save() {
-        try(Connection conn = DB.sql2o.open()) {
-            String sql = "INSERT INTO animals(name,type) VALUES(:name,:type)";
-            this.id= (int) conn.createQuery(sql,true)
-                    .addParameter("name",this.name)
-                    .addParameter("type",this.type)
-                    .executeUpdate()
-                    .getKey();
-        }
-    }
-
     public void delete(int id) {
         try (Connection conn = DB.sql2o.open()){
             String sql = "DELETE FROM animals WHERE id=:id;";
@@ -71,20 +60,18 @@ public class Animal implements DatabaseManagement {
     }
 
     public  static List<Animal> all() {
-        String sql = "SELECT * FROM animals WHERE type=:type";
+        String sql = "SELECT * FROM animals";
         try (Connection conn = DB.sql2o.open()){
             return conn.createQuery(sql)
-                    .addParameter("type","animal")
                     .throwOnMappingFailure(false)
                     .executeAndFetch(Animal.class);
         }
     }
     public static Animal findById(int id){
         try(Connection conn = DB.sql2o.open()){
-            String sql = "SELECT * FROM  animals WHERE id=:id AND type=:type";
+            String sql = "SELECT * FROM  animals WHERE id=:id; ";
             return conn.createQuery(sql)
                     .addParameter("id",id)
-                    .addParameter("type","animal")
                     .throwOnMappingFailure(false)
                     .executeAndFetchFirst(Animal.class);
         }
