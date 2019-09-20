@@ -1,1 +1,1 @@
-web: ./build/install/wildlife-tracker/bin/wildlife-tracker
+web: ./build/install/wildlife_tracker/bin/wildlife_tracker
