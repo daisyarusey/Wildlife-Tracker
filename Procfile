@@ -1,1 +1,1 @@
-web: ./build/install/Hero-squad/bin/
+web: ./build/install/wildlife-tracker/bin/

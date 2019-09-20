@@ -14,7 +14,6 @@ repositories {
 }
 applicationName = "wildlife_tracker"
 mainClassName = 'App'
-task stage(dependsOn: ['clean', 'installApp'])
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
@@ -25,3 +24,4 @@ dependencies {
     compile "com.sparkjava:spark-core:2.6.0"
     compile "com.sparkjava:spark-template-handlebars:2.5.5"
 }
+task stage(dependsOn: ['clean', 'installApp'])
