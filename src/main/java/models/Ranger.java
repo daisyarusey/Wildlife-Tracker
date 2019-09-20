@@ -39,4 +39,16 @@ public class Ranger {
             return con.createQuery(sql).executeAndFetch(Ranger.class);
         }
     }
+
+    public static Ranger find(int id) {
+        try(Connection con = DB.sql2o.open()) {
+            String sql = "SELECT * FROM rangers where id=:id";
+            Ranger ranger = con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Ranger.class);
+            return ranger;
+        }catch (IndexOutOfBoundsException exception) {
+            return null;
+        }
+    }
 }

@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Sighting{
-   private int id;
+
+    private int id;
    private int animal_id;
    private  String location;
    private int ranger_id;
@@ -33,15 +34,15 @@ public class Sighting{
                 Objects.equals(ranger_id,sighting.ranger_id);
     }
 
-//public Animal getAnimal(){
-//    String sql = "SELECT * FROM animals WHERE id = :id";
-//    try(Connection con = DB.sql2o.open()){
-//        Animal animal = con.createQuery(sql)
-//                .addParameter("id",this.animal_id)
-//                .executeAndFetchFirst(Animal.class);
-//        return animal;
-//    }
-//}
+public Animal getAnimal(){
+    String sql = "SELECT * FROM animals WHERE id = :id";
+    try(Connection con = DB.sql2o.open()){
+        Animal animal = con.createQuery(sql)
+                .addParameter("id",this.animal_id)
+                .executeAndFetchFirst(Animal.class);
+        return animal;
+    }
+}
 
     public void save(){
         try(Connection conn = DB.sql2o.open()) {

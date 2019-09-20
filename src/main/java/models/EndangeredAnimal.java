@@ -16,7 +16,7 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement {
     public static final String AVERAGE = "okay";
     public static final String ILL = "ill";
 
-    EndangeredAnimal(String name, String age, String health){
+    public EndangeredAnimal(String name, String age, String health){
         super(name);
         this.name=name;
         this.age=age;
@@ -52,7 +52,7 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement {
     }
     public void save() {
         try(Connection con = DB.sql2o.open()) {
-            String sql = "INSERT INTO endangered_animals (name, health, age, type) VALUES (:name, :health, :age, :type)";
+            String sql = "INSERT INTO animals (name, health, age, type) VALUES (:name, :health, :age, :type)";
             this.id = (int) con.createQuery(sql, true)
                     .addParameter("name", name)
                     .addParameter("health", health)
@@ -62,8 +62,9 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement {
                     .getKey();
         }
     }
+
     public static List<EndangeredAnimal> allEnd() {
-        String sql = "SELECT * FROM endangered_animals ";
+        String sql = "SELECT * FROM animals WHERE type='endangered'";
         try(Connection con = DB.sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(EndangeredAnimal.class);
         }
@@ -71,7 +72,7 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement {
 
     public static EndangeredAnimal findEndangered(int id) {
         try(Connection con = DB.sql2o.open()){
-            String sql = "SELECT * FROM endangered_animals WHERE id=:id AND type=:type";
+            String sql = "SELECT * FROM animals WHERE id=:id AND type=:type";
             return (EndangeredAnimal) con.createQuery(sql)
                     .addParameter("id", id)
                     .addParameter("type", "endangered")
@@ -82,7 +83,7 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement {
 @Override
     public void delete(int id) {
         try (Connection conn = DB.sql2o.open()){
-            String sql = "DELETE FROM endangered_animals WHERE id=:id;";
+            String sql = "DELETE FROM animals WHERE id=:id;";
             conn.createQuery(sql)
                     .addParameter("id",id)
                     .executeUpdate();

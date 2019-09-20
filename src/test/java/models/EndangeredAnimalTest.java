@@ -19,7 +19,7 @@ public class EndangeredAnimalTest {
     @After
     public void tearDown() throws Exception {
         try(Connection conn = DB.sql2o.open()){
-            String endangeredAnimal = "DELETE FROM endangered_animals *;";
+            String endangeredAnimal = "DELETE FROM animals *;";
             conn.createQuery(endangeredAnimal).executeUpdate();
         }
     }

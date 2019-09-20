@@ -1,7 +1,7 @@
 {{#partial "content"}}
-    {{#if animal}}
+    {{#if animals}}
         <h2>Sight Animal</h2>
-        <form action="/animal/new" class="form" method="POST">
+        <form action="/animal/new" class="form form-dark" method="POST">
             <div class="md-form">
                 <label id="ranger_name" for="ranger_name">Ranger</label>
                 <select class="form-control" name="ranger_id" id="ranger_id" required>
@@ -11,12 +11,10 @@
                 </select>
             </div>
             <div class="md-form">
-                <label id="animal_name" for="animal_name">Animal</label>
-                <select class="form-control" name="animal_id" id="animal_id" required>
-                    {{#each animals}}
-                        <option value="{{id}}">{{name}}</option>
-                    {{/each}}
-                </select>
+                <div class="md-form">
+                    <label id="animal_name" for="animal_name">Animal</label>
+                    <input type="text" id="animal_name" name="animal_name" class="form-control">
+                </div>
             </div>
             <div class="md-form">
                 <label id="location" for="location">Location</label>
@@ -28,9 +26,9 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-        {{else}}
-        <h2>Sight Endangered Animals</h2>
-        <form action="/endAnimal/new" class="form" method="POST">
+    {{else}}
+        <h2>Sight Endangered Animal</h2>
+        <form action="/endAnimal/new" class="form form-dark" method="POST">
             <div class="md-form">
                 <label id="ranger_name" for="ranger_name">Ranger</label>
                 <select class="form-control" name="ranger_id" id="ranger_id" required>
@@ -40,13 +38,27 @@
                 </select>
             </div>
             <div class="md-form">
-                <label id="animal_name" for="animal_name">Endangered Animal</label>
-                <select class="form-control" name="animal_id" id="animal_id" required>
-                    {{#each endangered_animals}}
-                        <option value="{{id}}">{{name}}</option>
-                    {{/each}}
-                </select>
+                <label  for="animal_name">Animal</label>
+                <input type="text" id="animal_name" name="animal_name" class="form-control">
             </div>
+                        <div class="md-form">
+                            <label  for="age">Age</label>
+                            <select id='age' class="form-control" name='age'>
+                                <option value="" disabled selected>Select Age</option>
+                                <option value="{{Adult}}">Adult</option>
+                                <option value="{{Young}}">Young</option>
+                                <option value="{{Newborn}}">Newborn</option>
+                            </select>
+                        </div>
+                        <div class="md-form">
+                            <label for="Age">Health</label>
+                            <select class='form-control' id="health" name='health'>
+                                <option class="text-grey" value="" disabled selected>Select Health</option>
+                                <option value="{{Healthy}}">Healthy</option>
+                                <option value="{{Okay}}">Average</option>
+                                <option value="{{Ill}}">Ill</option>
+                            </select>
+                        </div>
             <div class="md-form">
                 <label id="location" for="location">Location</label>
                 <select class="form-control" name="location" id="location" required>
@@ -57,6 +69,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-        {{/if}}
+
+    {{/if}}
 {{/partial}}
 {{>layout.hbs}}

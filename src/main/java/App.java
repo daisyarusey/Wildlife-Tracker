@@ -1,7 +1,4 @@
-import models.Animal;
-import models.Location;
-import models.Ranger;
-import models.Sighting;
+import models.*;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import java.util.HashMap;
@@ -20,26 +17,74 @@ public class App {
 
         },new HandlebarsTemplateEngine());
 
-        //get new form to record a sighting
+        //get new form to record a animal sighting
         get("/animal/new", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
             model.put("rangers", Ranger.all());
             model.put("locations", Location.all());
             model.put("animals", Animal.all());
-            model.put("animal",true);
+            model.put("animals",true);
             return new ModelAndView(model, "form.hbs");
         }, new HandlebarsTemplateEngine());
 
         // post the sighting
         post("/animal/new", (req, res) -> {
             Map<String,Object>model = new HashMap<>();
-            int  animal_id = Integer.parseInt(req.queryParams("animal_id"));
+            String name=req.queryParams("animal_name");
             String location = req.queryParams("location");
             int ranger_id = Integer.parseInt(req.queryParams("ranger_id"));
-            Sighting newSighting =  new Sighting(animal_id,location,ranger_id);
+            Animal newAnimal= new Animal(name);
+//            System.out.println(newAnimal.getId());
+            Sighting newSighting =  new Sighting(newAnimal.getId(),location,ranger_id);
             newSighting.save();
+            newAnimal.save();
+            return new ModelAndView(model,"index.hbs");
+        }, new HandlebarsTemplateEngine());
 
-            return new ModelAndView(model,"sighting.hbs");
+        //get new form to record an endangered sighting
+        get("/endAnimal/new", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            model.put("Healthy", EndangeredAnimal.HEALTHY);
+            model.put("Ill", EndangeredAnimal.ILL);
+            model.put("Okay", EndangeredAnimal.AVERAGE);
+            model.put("Young", EndangeredAnimal.YOUNG);
+            model.put("Adult", EndangeredAnimal.ADULT);
+            model.put("Newborn", EndangeredAnimal.NEWBORN);
+            model.put("rangers", Ranger.all());
+            model.put("locations", Location.all());
+            model.put("endangered_animals", EndangeredAnimal.all());
+            model.put("endAnimals",true);
+            return new ModelAndView(model, "form.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        post("/endAnimal/new", (req, res) -> {
+            Map<String,Object>model = new HashMap<>();
+            String location = req.queryParams("location");
+            int ranger_id = Integer.parseInt(req.queryParams("ranger_id"));
+            String name= req.queryParams("animal_name");
+            String health=req.queryParams("health");
+            String age =req.queryParams("age");
+
+            EndangeredAnimal newAnimal= new EndangeredAnimal(name,health,age);
+            newAnimal.save();
+            Sighting newSighting =  new Sighting(newAnimal.getId(),location,ranger_id);
+            newSighting.save();
+            return new ModelAndView(model,"view.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        //view sightings
+        get("/view/sightings", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            List<Sighting> sightings = Sighting.all();
+            model.put("sightings",sightings);
+            List<Animal> animals = Animal.all();
+            model.put("animals",animals);
+            List<EndangeredAnimal> endangeredAnimals=EndangeredAnimal.allEnd();
+            model.put("endangered_animals",endangeredAnimals);
+            List<Ranger> rangers = Ranger.all();
+            model.put("rangers", rangers);
+
+            return new ModelAndView(model, "view.hbs");
         }, new HandlebarsTemplateEngine());
 
         //get list of rangers
@@ -56,9 +101,5 @@ public class App {
             return new ModelAndView(model, "location-list.hbs");
         }, new HandlebarsTemplateEngine());
 
-
     }
-
-
-
 }

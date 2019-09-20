@@ -10,14 +10,16 @@ public class Animal implements DatabaseManagement {
     public String name;
     public int id;
     public String type;
-    public static final String ANIMAL_TYPE = "animal";
+    public static final String ANIMAL_TYPE = "non-endangered";
 
     public Animal(String name) {
         this.name=name;
         this.type=ANIMAL_TYPE;
 
     }
-
+    public void setId(){
+        this.id=id;
+    }
     public String getName() {
         return name;
     }
@@ -49,6 +51,17 @@ public class Animal implements DatabaseManagement {
         return Objects.hash(name, id, type);
     }
 
+    public void save() {
+        try(Connection con = DB.sql2o.open()) {
+            String sql = "INSERT INTO animals (name,type) VALUES (:name,:type)";
+            this.id = (int) con.createQuery(sql, true)
+                    .addParameter("name", name)
+                    .addParameter("type", type)
+                    .executeUpdate()
+                    .getKey();
+        }
+    }
+
 
     public void delete(int id) {
         try (Connection conn = DB.sql2o.open()){
@@ -60,7 +73,7 @@ public class Animal implements DatabaseManagement {
     }
 
     public  static List<Animal> all() {
-        String sql = "SELECT * FROM animals";
+        String sql = "SELECT * FROM animals WHERE type='non-endangered'";
         try (Connection conn = DB.sql2o.open()){
             return conn.createQuery(sql)
                     .throwOnMappingFailure(false)
