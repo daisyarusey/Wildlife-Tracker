@@ -3,14 +3,11 @@ package models;
 import org.sql2o.*;
 import java.net.URI;
 import java.net.URISyntaxException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DB {
     private static URI dbUri;
     public static Sql2o sql2o;
     //    public static Sql2o sql2o = new Sql2o("jdbc:postgresql://localhost:5432/wildlife_tracker","postgres","12345");
-   static Logger logger = LoggerFactory.getLogger(DB.class);
 
     static {
 
@@ -23,11 +20,11 @@ public class DB {
             int port = dbUri.getPort();
             String host = dbUri.getHost();
             String path = dbUri.getPath();
-            String username = (dbUri.getUserInfo() == null) ? null : dbUri.getUserInfo().split(":")[0];
-            String password = (dbUri.getUserInfo() == null) ? null : dbUri.getUserInfo().split(":")[1];
-            sql2o = new Sql2o("jdbc:postgresql://localhost:5432/wildlife_tracker","postgres","12345");
+            String username = (dbUri.getUserInfo() == null) ? "postgres" : dbUri.getUserInfo().split(":")[0];
+            String password = (dbUri.getUserInfo() == null) ? "12345" : dbUri.getUserInfo().split(":")[1];
+            sql2o = new Sql2o("jdbc:postgresql://"+":"+port+path,username,password);
         } catch (URISyntaxException e) {
-            logger.error("Unable to connect to database.");
+
         }
     }
 }
